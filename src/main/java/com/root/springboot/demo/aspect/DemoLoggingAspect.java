@@ -16,15 +16,15 @@ public class DemoLoggingAspect {
     public DemoLoggingAspect() {
     }
 
-    @Pointcut("execution(* com.luv2code.springboot.thymeleafdemo.controller.*.*(..))")
+    @Pointcut("execution(* com.root.springboot.demo.controller.*.*(..))")
     private void forControllerPackage() {
     }
 
-    @Pointcut("execution(* com.luv2code.springboot.thymeleafdemo.service.*.*(..))")
+    @Pointcut("execution(* com.root.springboot.demo.service.*.*(..))")
     private void forServicePackage() {
     }
 
-    @Pointcut("execution(* com.luv2code.springboot.thymeleafdemo.dao.*.*(..))")
+    @Pointcut("execution(* com.root.springboot.demo.dao.*.*(..))")
     private void forDaoPackage() {
     }
 
