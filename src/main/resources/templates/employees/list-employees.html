@@ -19,11 +19,12 @@
 	<h3>Employee Directory</h3>
 	<hr>
 
-	<!-- Add a button -->
+	<!-- Add a button and deactivate the button based on role -->
 	<a th:href="@{/employees/showFormForAdd}"
-		class="btn btn-primary btn-sm mb-3">
+	   th:classappend="${#authorization.expression('hasRole(''ADMIN'')')} ? 'btn btn-primary btn-sm mb-3' : 'btn btn-primary btn-sm mb-3 disabled'">
 		Add Employee
 	</a>
+
 
 	<table class="table table-bordered table-striped">
 		<thead class="table-dark">
@@ -51,7 +52,7 @@
 
 					<!-- Add "delete" button/link -->
 					<a th:href="@{/employees/delete(employeeId=${tempEmployee.id})}"
-					   class="btn btn-danger btn-sm"
+					   th:classappend="${#authorization.expression('hasRole(''ADMIN'')')} ? 'btn btn-danger btn-sm' : 'btn btn-danger btn-sm disabled'"
 					   onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">
 						Delete
 					</a>
@@ -60,8 +61,16 @@
 			</tr>
 		</tbody>		
 	</table>
+
+	<!-- Add a logout button -->
+	<form action="#" th:action="@{/logout}" method="POST">
+
+		<input type="submit" value="Logout" />
+	</form>
 	
 </div>
+
+
 	
 </body>
 </html>
