@@ -3,8 +3,10 @@ package com.root.springboot.demo.controller;
 
 import com.root.springboot.demo.entity.Employee;
 import com.root.springboot.demo.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,9 +46,17 @@ public class EmployeeController {
     }
 
     @PostMapping({"/save"})
-    public String saveEmployee(@ModelAttribute("employee") Employee theEmployee) {
-        this.employeeService.save(theEmployee);
-        return "redirect:/employees/list";
+    public String saveEmployee(
+            @Valid @ModelAttribute("employee") Employee theEmployee,
+            BindingResult theBindingResult) {
+
+        if (theBindingResult.hasErrors()){
+            return "employees/employee-form";
+        }
+        else {
+            this.employeeService.save(theEmployee);
+            return "redirect:/employees/list";
+        }
     }
 
     @GetMapping({"/delete"})
