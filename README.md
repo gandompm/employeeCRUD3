@@ -1,8 +1,7 @@
 # EmployeeCRUD3
 
-**EmployeeCRUD3** is a powerful Spring Boot application that demonstrates essential CRUD (Create, Read, Update, Delete) operations for managing employee data.
+**EmployeeCRUD3** is a Spring Boot application that demonstrates essential CRUD (Create, Read, Update, Delete) operations for managing employee data and has following technologies.
 
-It offers a seamless RESTful API, enabling smooth employee management with functionalities such as addition, removal, update, and retrieval of employee details.
 
 
 ## Key Technologies: 
