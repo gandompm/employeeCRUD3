@@ -38,8 +38,8 @@ public class EmployeeController {
         return "employees/employee-form";
     }
 
-    @GetMapping({"/showFormForUpdate"})
-    public String showFormForUpdate(@RequestParam("employeeId") int theId, Model theModel) {
+    @GetMapping({"/showFormForDetails"})
+    public String showFormForDetails(@RequestParam("employeeId") int theId, Model theModel) {
         Employee theEmployee = this.employeeService.findById(theId);
         theModel.addAttribute("employee", theEmployee);
         return "employees/employee-form";

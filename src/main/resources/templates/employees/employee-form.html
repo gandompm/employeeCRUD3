@@ -22,7 +22,7 @@
         <h3>Employee Directory</h3>
         <hr>
 
-        <p class="h4 mb-4">Save Employee</p>
+        <p class="h4 mb-4">Employee Info</p>
 
         <form action="#" th:action="@{/employees/save}"
                          th:object="${employee}" method="POST">
@@ -45,6 +45,25 @@
                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error small d-block"></span>
             </div>
 
+            <div class="mb-3">
+                <input type="text" th:field="*{employeeDetail.address}" class="form-control" placeholder="Address (optional)">
+            </div>
+
+            <div class="mb-3">
+                <input type="text" th:field="*{employeeDetail.phoneNumber}" class="form-control" placeholder="Phone Number (optional)">
+            </div>
+
+            <!-- Display tasks for the employee -->
+            <div class="mt-4">
+                <p class="h5" style="margin-bottom: 20px;">Tasks:</p>
+                <ul>
+                    <li th:each="task : ${employee.tasks}" style="margin-bottom: 10px;">
+                        <span th:text="${task.description}" class="form-control" style="border: none;"></span>
+                    </li>
+                </ul>
+            </div>
+
+
             <button type="submit" class="btn btn-info col-2">Save</button>
 
 
@@ -54,6 +73,9 @@
         <a th:href="@{/employees/list}">Back to Employees List</a>
 
     </div>
+
+    <!-- Extra space at the bottom -->
+    <div style="height: 100px;"></div>
 
 
 </body>

@@ -1,14 +1,12 @@
 package com.root.springboot.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(
@@ -41,6 +39,15 @@ public class Employee {
             name = "email"
     )
     private String email;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="employee_detail_id")
+    private EmployeeDetail employeeDetail;
+
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    private List<Task> tasks = new ArrayList<>();
+
 
     public Employee() {
     }
@@ -92,5 +99,21 @@ public class Employee {
 
     public String toString() {
         return "Employee [id=" + this.id + ", firstName=" + this.firstName + ", lastName=" + this.lastName + ", email=" + this.email + "]";
+    }
+
+    public EmployeeDetail getEmployeeDetail() {
+        return employeeDetail;
+    }
+
+    public void setEmployeeDetail(EmployeeDetail employeeDetail) {
+        this.employeeDetail = employeeDetail;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }
