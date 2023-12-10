@@ -4,6 +4,7 @@ package com.root.springboot.demo.service;
 
 import com.root.springboot.demo.dao.EmployeeRepository;
 import com.root.springboot.demo.entity.Employee;
+import com.root.springboot.demo.entity.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public void deleteById(int theId) {
-        this.employeeRepository.deleteById(theId);
+        // Retrieve the employee
+        Employee employee = employeeRepository.findById(theId).orElse(null);
+
+        if (employee != null) {
+            // Get the tasks
+            List<Task> tasks = employee.getTasks();
+
+            if (tasks != null){
+                // Break association of all tasks for the employee
+                for (Task task : tasks) {
+                    task.setEmployee(null);
+                }
+            }
+
+            this.employeeRepository.deleteById(theId);
+        }
     }
 }
