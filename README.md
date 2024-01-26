@@ -25,6 +25,9 @@ https://github.com/gandompm/employeeCRUD3/assets/17143396/5396f29b-f6c4-4575-b6c
 - **Entity Mapping:** Implements entity mappings within the application:
   - **OneToOne Mapping:** Between Employee and Employee_Detail entities.
   - **OneToMany Mapping:** Between Employee and Task entities.
+- **Testing** 
+  - **Unit Testing:** Performed unit testing for both the MVC and REST API layers.
+  - **Instrumented Testing:** involved different layers. 
 
   
 
