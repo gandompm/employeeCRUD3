@@ -1,6 +1,7 @@
 package com.root.springboot.demo.service;
 
 import com.root.springboot.demo.dao.EmployeeRepository;
+import com.root.springboot.demo.entity.CategoryEnum;
 import com.root.springboot.demo.entity.Employee;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
@@ -42,7 +43,7 @@ public class EmployeeServiceTest {
     @Test
     public void createEmployee(){
 
-        Employee employee = new Employee(4, "Parham", "Gandomkar", "parham2@gmail.com");
+        Employee employee = new Employee(4, "Parham", "Gandomkar", "parham2@gmail.com", CategoryEnum.SOFTWARE_DEVELOPER);
         employeeService.save(employee);
 
         Assertions.assertNotNull(employeeRepository.findById(4), "find employee by id");

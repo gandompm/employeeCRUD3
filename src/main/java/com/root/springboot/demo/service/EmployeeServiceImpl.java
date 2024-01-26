@@ -3,6 +3,7 @@ package com.root.springboot.demo.service;
 
 
 import com.root.springboot.demo.dao.EmployeeRepository;
+import com.root.springboot.demo.entity.CategoryEnum;
 import com.root.springboot.demo.entity.Employee;
 import com.root.springboot.demo.entity.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else {
             throw new RuntimeException("Did not find employee id - " + theId);
         }
+    }
+
+    public List<Employee> findByName(String name) {
+        // Assuming that the 'name' parameter can be either first name or last name
+        return employeeRepository.findByFirstNameIgnoreCaseOrLastNameIgnoreCase(name, name);
+    }
+
+    @Override
+    public List<Employee> findAllInCategory(CategoryEnum category) {
+        return employeeRepository.findByCategory(category);
     }
 
     public void save(Employee theEmployee) {

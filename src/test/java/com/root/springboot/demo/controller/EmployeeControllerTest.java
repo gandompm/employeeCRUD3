@@ -2,6 +2,7 @@ package com.root.springboot.demo.controller;
 
 
 import com.root.springboot.demo.dao.EmployeeRepository;
+import com.root.springboot.demo.entity.CategoryEnum;
 import com.root.springboot.demo.entity.Employee;
 import com.root.springboot.demo.service.EmployeeService;
 import org.junit.jupiter.api.AfterEach;
@@ -75,8 +76,8 @@ public class EmployeeControllerTest {
     public void getEmployeesListWithAuthenticatedUser() throws Exception {
 
         // mocking employee service findAll function
-        Employee employeeOne = new Employee("Parham", "Gkar", "parham@gmail.com");
-        Employee employeeTwo = new Employee("Pouria", "Gkar", "pouria@gmail.com");
+        Employee employeeOne = new Employee("Parham", "Gkar", "parham@gmail.com", CategoryEnum.SOFTWARE_DEVELOPER);
+        Employee employeeTwo = new Employee("Pouria", "Gkar", "pouria@gmail.com", CategoryEnum.PRODUCT_OWNER);
 
         List<Employee> employeeList = new ArrayList<>(Arrays.asList(employeeOne, employeeTwo));
 

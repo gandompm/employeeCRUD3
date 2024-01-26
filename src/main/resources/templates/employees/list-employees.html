@@ -3,8 +3,8 @@
 
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -16,62 +16,120 @@
 
 <div class="container">
 
-	<h3>Employee Directory</h3>
+	<div style="height: 20px;"></div>
+
+	<div class="row  align-items-center">
+		<!-- Left side (text) -->
+		<div class="col-md-11">
+			<h3 th:text="#{label.employee.directory}">Employee Directory</h3>
+		</div>
+
+		<!-- Right side (form) -->
+		<div class="col-md-1 text-right">
+			<!-- Add a logout button -->
+			<form action="#" th:action="@{/logout}" method="POST">
+				<input type="submit" th:value="#{button.logout}"  />
+			</form>
+		</div>
+	</div>
+
 	<hr>
 
 	<!-- Add a button and deactivate the button based on role -->
 	<a th:href="@{/employees/showFormForAdd}"
-	   th:classappend="${#authorization.expression('hasRole(''ADMIN'')')} ? 'btn btn-primary btn-sm mb-3' : 'btn btn-primary btn-sm mb-3 disabled'">
-		Add Employee
+	   th:classappend="${#authorization.expression('hasRole(''ADMIN'')')} ? 'btn btn-primary btn-sm mb-3' : 'btn btn-primary btn-sm mb-3 disabled'"
+	   th:text="#{button.add.employee}">Add Employee
 	</a>
+
+
+
+	<!-- Add search form -->
+	<form th:action="@{/employees/search}" th:method="get" class="mb-3">
+		<div class="input-group">
+			<input type="text" class="form-control" th:placeholder="#{label.search.by.name}"  name="name">
+			<button type="submit" class="btn btn-outline-secondary" th:text="#{button.search}">Search</button>
+		</div>
+	</form>
+
+	<!-- Display search result message and cancel button -->
+	<div th:if="${param.name}" class="mb-3 row">
+		<div class="col-md-10">
+			<p class="alert alert-info" th:text="'Search results for: ' + ${param.name}"></p>
+		</div>
+		<div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+			<a th:href="@{/employees/list}" class="btn btn-secondary btn-sm">Cancel Search</a>
+		</div>
+	</div>
+
+	<!-- Add category pills -->
+	<ul class="nav nav-pills mb-3">
+		<li class="nav-item">
+			<a class="nav-link" th:href="@{/employees/list}" th:text="#{button.all}" th:classappend="${selectedCategory == null ? 'active' : ''}">All</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" th:href="@{/employees/list/category(category='SOFTWARE_DEVELOPER')}" th:text="#{label.software.developer}" th:classappend="${selectedCategory == 'SOFTWARE_DEVELOPER' ? 'active' : ''}">Software Developer</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" th:href="@{/employees/list/category(category='SCRUM_MASTER')}" th:text="#{label.scrum.master}" th:classappend="${selectedCategory == 'SCRUM_MASTER' ? 'active' : ''}">Scrum Master</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" th:href="@{/employees/list/category(category='PRODUCT_OWNER')}" th:text="#{label.product.owner}" th:classappend="${selectedCategory == 'PRODUCT_OWNER' ? 'active' : ''}">Product Owner</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" th:href="@{/employees/list/category(category='UX_DESIGNER')}" th:text="#{label.ux.designer}" th:classappend="${selectedCategory == 'UX_DESIGNER' ? 'active' : ''}">UX Designer</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" th:href="@{/employees/list/category(category='CUSTOMER_ASSISTANT')}" th:text="#{label.customer.assistant}" th:classappend="${selectedCategory == 'CUSTOMER_ASSISTANT' ? 'active' : ''}">Customer Assistant</a>
+		</li>
+	</ul>
+
 
 
 	<table class="table table-bordered table-striped">
 		<thead class="table-dark">
-			<tr>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Email</th>
-				<th>Action</th>
-			</tr>
+		<tr>
+			<th th:text="#{label.first.name}">First Name</th>
+			<th th:text="#{label.last.name}">Last Name</th>
+			<th th:text="#{label.category}">Category</th>
+			<th th:text="#{label.action}">Action</th>
+		</tr>
 		</thead>
-		
+
+
 		<tbody>
 			<tr th:each="tempEmployee : ${employees}">
-			
-				<td th:text="${tempEmployee.firstName}" />	
-				<td th:text="${tempEmployee.lastName}" />	
-				<td th:text="${tempEmployee.email}" />
 
-				<!-- Add details button/link -->
-				<td>
+				<td th:text="${tempEmployee.firstName}" />
+				<td th:text="${tempEmployee.lastName}" />
+				<td th:text="${tempEmployee.category.displayName}" />
+
+				<!-- Actions column with Details and Delete buttons/links -->
+				<td style="width: 25%;">
+					<!-- Details button/link -->
 					<a th:href="@{/employees/showFormForDetails(employeeId=${tempEmployee.id})}"
-					   class="btn btn-info btn-sm">
-						Details
+					   class="btn btn-info btn-sm" style="width: 48%;">
+						<span th:text="#{button.details}">Details</span>
 					</a>
 
-					<!-- Add "delete" button/link -->
+					<!-- Delete button/link -->
 					<a th:href="@{/employees/delete(employeeId=${tempEmployee.id})}"
 					   th:classappend="${#authorization.expression('hasRole(''ADMIN'')')} ? 'btn btn-danger btn-sm' : 'btn btn-danger btn-sm disabled'"
-					   onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">
-						Delete
+					   onclick="if (!(confirm('${button.delete.confirmation}'))) return false"
+					   style="width: 50%;">
+						<span th:text="#{button.delete}">Delete</span>
 					</a>
 				</td>
 
+
 			</tr>
-		</tbody>		
+		</tbody>
 	</table>
 
-	<!-- Add a logout button -->
-	<form action="#" th:action="@{/logout}" method="POST">
 
-		<input type="submit" value="Logout" />
-	</form>
-	
 </div>
 
 
-	
+
 </body>
 </html>
 

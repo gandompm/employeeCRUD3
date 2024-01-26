@@ -40,7 +40,16 @@ public class Employee {
     )
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @Enumerated(EnumType.STRING)
+    @Column(
+            name = "category",
+            columnDefinition = "category_enum")
+    private CategoryEnum category;
+
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+            CascadeType.DETACH})
     @JoinColumn(name="employee_detail_id")
     private EmployeeDetail employeeDetail;
 
@@ -52,17 +61,19 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int id, String firstName, String lastName, String email) {
+    public Employee(int id, String firstName, String lastName, String email, CategoryEnum category) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.category = category;
     }
 
-    public Employee(String firstName, String lastName, String email) {
+    public Employee(String firstName, String lastName, String email, CategoryEnum category) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.category = category;
     }
 
     public int getId() {
@@ -115,5 +126,13 @@ public class Employee {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public CategoryEnum getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryEnum category) {
+        this.category = category;
     }
 }

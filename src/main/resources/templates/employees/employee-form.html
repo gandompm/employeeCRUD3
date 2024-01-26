@@ -19,10 +19,13 @@
 
     <div class="container">
 
-        <h3>Employee Directory</h3>
+        <div style="height: 20px;"></div>
+
+        <h3 th:text="#{label.employee.directory}">Employee Directory</h3>
+
         <hr>
 
-        <p class="h4 mb-4">Employee Info</p>
+        <p class="h4 mb-4" th:text="#{label.employee.info}">Employee Info</p>
 
         <form action="#" th:action="@{/employees/save}"
                          th:object="${employee}" method="POST">
@@ -31,31 +34,45 @@
             <input type="hidden" th:field="*{id}" />
 
             <div class="mb-3">
-                <input type="text" th:field="*{firstName}" class="form-control" placeholder="First name">
+                <input type="text" th:field="*{firstName}" class="form-control" th:placeholder="#{label.first.name}">
                 <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error small d-block"></span>
             </div>
 
             <div class="mb-3">
-                <input type="text" th:field="*{lastName}" class="form-control" placeholder="Last name">
+                <input type="text" th:field="*{lastName}" class="form-control" th:placeholder="#{label.last.name}">
                 <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error small d-block"></span>
             </div>
 
             <div class="mb-3">
-                <input type="text" th:field="*{email}" class="form-control" placeholder="Email">
+                <input type="text" th:field="*{email}" class="form-control" th:placeholder="#{label.email}">
                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error small d-block"></span>
             </div>
 
             <div class="mb-3">
-                <input type="text" th:field="*{employeeDetail.address}" class="form-control" placeholder="Address (optional)">
+                <input type="text" th:field="*{employeeDetail.address}" class="form-control" th:placeholder="#{label.address.optional}">
             </div>
 
             <div class="mb-3">
-                <input type="text" th:field="*{employeeDetail.phoneNumber}" class="form-control" placeholder="Phone Number (optional)">
+                <input type="text" th:field="*{employeeDetail.phoneNumber}" class="form-control" th:placeholder="#{label.phone.number.optional}">
             </div>
+
+
+            <!-- Category dropdown -->
+            <div class="mb-3">
+                <label for="categoryFilter" class="form-label" th:text="#{label.category}">Category:</label>
+                <select class="form-select" id="categoryFilter" name="categoryFilter" th:field="${employee.category}">
+                    <option value="SOFTWARE_DEVELOPER" th:text="#{label.software.developer}">Software Developer</option>
+                    <option value="SCRUM_MASTER" th:text="#{label.scrum.master}">Scrum Master</option>
+                    <option value="PRODUCT_OWNER" th:text="#{label.product.owner}">Product Owner</option>
+                    <option value="UX_DESIGNER" th:text="#{label.ux.designer}">UX Designer</option>
+                    <option value="CUSTOMER_ASSISTANT" th:text="#{label.customer.assistant}">Customer Assistant</option>
+                </select>
+            </div>
+
 
             <!-- Display tasks for the employee -->
             <div class="mt-4">
-                <p class="h5" style="margin-bottom: 20px;">Tasks:</p>
+                <p class="h5" style="margin-bottom: 20px;" th:text="#{label.tasks}">Tasks:</p>
                 <ul>
                     <li th:each="task : ${employee.tasks}" style="margin-bottom: 10px;">
                         <span th:text="${task.description}" class="form-control" style="border: none;"></span>
@@ -64,13 +81,13 @@
             </div>
 
 
-            <button type="submit" class="btn btn-info col-2">Save</button>
+            <button type="submit" class="btn btn-info col-2" th:text="#{button.save}">Save</button>
 
 
         </form>
 
         <hr>
-        <a th:href="@{/employees/list}">Back to Employees List</a>
+        <a th:href="@{/employees/list}" th:text="#{button.back.to.employee.list}">Back to Employees List</a>
 
     </div>
 

@@ -1,6 +1,7 @@
 package com.root.springboot.demo.controller;
 
 
+import com.root.springboot.demo.entity.CategoryEnum;
 import com.root.springboot.demo.entity.Employee;
 import com.root.springboot.demo.service.EmployeeService;
 import jakarta.validation.Valid;
@@ -28,8 +29,25 @@ public class EmployeeController {
     public String listEmployees(Model theModel) {
         List<Employee> theEmployees = this.employeeService.findAll();
         theModel.addAttribute("employees", theEmployees);
+        theModel.addAttribute("selectedCategory", null); // Add the selected category for display
         return "employees/list-employees";
     }
+
+    @GetMapping("/search")
+    public String searchEmployees(@RequestParam("name") String name, Model theModel) {
+        List<Employee> searchResults = employeeService.findByName(name.trim());
+        theModel.addAttribute("employees", searchResults);
+        return "employees/list-employees";
+    }
+
+    @GetMapping("/list/category")
+    public String listEmployeesByCategory(@RequestParam("category") CategoryEnum category, Model theModel) {
+        List<Employee> theEmployees = this.employeeService.findAllInCategory(category);
+        theModel.addAttribute("employees", theEmployees);
+        theModel.addAttribute("selectedCategory", category.name()); // Add the selected category for display
+        return "employees/list-employees";
+    }
+
 
     @GetMapping({"/showFormForAdd"})
     public String showFormForAdd(Model theModel) {
